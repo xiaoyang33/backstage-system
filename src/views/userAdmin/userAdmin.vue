@@ -1,6 +1,6 @@
 <template>
   <div>
-    
+    我是权限
   </div>
 </template>
 

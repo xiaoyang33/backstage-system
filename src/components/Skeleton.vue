@@ -69,7 +69,7 @@
                <Icon type="ios-people-outline" />
                   用户管理
               </template>
-              <MenuItem to="/aa" name="1-1">Option 1</MenuItem>
+              <MenuItem to="/hone/UserAdmin" name="1-1">Option 1</MenuItem>
               <MenuItem name="1-2">Option 2</MenuItem>
               <MenuItem name="1-3">Option 3</MenuItem>
           </Submenu>

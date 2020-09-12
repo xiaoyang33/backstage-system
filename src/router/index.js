@@ -17,7 +17,8 @@ const routes = [
     component:()=>import('../views/Home.vue'),
     children:[
       {
-        
+        path:'userAdmin',
+        component:()=>import('../views/userAdmin/UserAdmin.vue'),
       }
     ]
   }

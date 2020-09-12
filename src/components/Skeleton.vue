@@ -63,7 +63,7 @@
         :collapsed-width="78"
         v-model="isCollapsed"
       >
-        <Menu    theme="dark" width="auto" :class="menuitemClasses">
+        <Menu theme="dark" width="auto" :class="menuitemClasses">
           <Submenu name="1">
               <template slot="title">
                <Icon type="ios-people-outline" />
@@ -132,12 +132,17 @@
   </div>
 </template>
 <script>
-import request from '../network/'
+import {getSider} from '../network/others'
 export default {
   data() {
     return {
       isCollapsed: false,
     };
+  },
+  created(){
+    getSider().then(res=>{
+      console.log(res);
+    })
   },
   computed: {
     rotateIcon() {

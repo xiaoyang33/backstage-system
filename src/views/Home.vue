@@ -1,19 +1,25 @@
 <template>
   <div> 
-    <Skeleton/>
+    <Skeleton>
+      
+    </Skeleton>
   </div>
 </template>
 
 <script>
 import Skeleton from '../components/Skeleton'
+import handleBtn from '../components/HandleBtn'
 export default {
   components:{
-    Skeleton
+    Skeleton,
+    handleBtn
   }
   
 }
 </script>
 
 <style>
-
+.a{
+  width: 200px;
+}
 </style>

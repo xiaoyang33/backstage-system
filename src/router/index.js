@@ -17,7 +17,8 @@ const routes = [
     component:()=>import('../views/Home.vue'),
     children:[
       {
-        
+        path:'roles',
+        component:()=>import('../views/jurAdmin/RolesList.vue')
       }
     ]
   }

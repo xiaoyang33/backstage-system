@@ -64,50 +64,16 @@
         v-model="isCollapsed"
       >
         <Menu theme="dark" width="auto" :class="menuitemClasses">
-          <Submenu name="1">
+          <Submenu :name="index" v-for="(item,index) in sider" :key="item.id">
               <template slot="title">
                <Icon type="ios-people-outline" />
-                  用户管理
+                  {{item.authName}}
               </template>
-              <MenuItem to="/aa" name="1-1">Option 1</MenuItem>
-              <MenuItem name="1-2">Option 2</MenuItem>
-              <MenuItem name="1-3">Option 3</MenuItem>
-          </Submenu>
-          <Submenu name="2">
-              <template slot="title">
-                  <Icon type="ios-lock-outline" />
-                  权限管理
-              </template>
-              <MenuItem name="2-1">Option 1</MenuItem>
-              <MenuItem name="2-2">Option 2</MenuItem>
-              <MenuItem name="2-3">Option 3</MenuItem>
-          </Submenu>
-          <Submenu name="3">
-              <template slot="title">
-                  <Icon type="ios-cart-outline" />
-                  商品管理
-              </template>
-              <MenuItem name="3-1">Option 1</MenuItem>
-              <MenuItem name="3-2">Option 2</MenuItem>
-              <MenuItem name="3-3">Option 3</MenuItem>
-          </Submenu>
-          <Submenu name="3">
-              <template slot="title">
-                  <Icon type="ios-git-compare" />
-                  订单管理
-              </template>
-              <MenuItem name="4-1">Option 1</MenuItem>
-              <MenuItem name="4-2">Option 2</MenuItem>
-              <MenuItem name="4-3">Option 3</MenuItem>
-          </Submenu>
-          <Submenu name="5">
-              <template slot="title">
-                  <Icon type="ios-stats-outline" />
-                  数据统计
-              </template>
-              <MenuItem name="5-1">Option 1</MenuItem>
-              <MenuItem name="5-2">Option 2</MenuItem>
-              <MenuItem name="5-3">Option 3</MenuItem>
+              <MenuItem v-for="(it,ind) in item.children" 
+              :key="it.id" 
+              :to="path(it.path)" 
+              :name="index+'-'+ind">
+              {{it.authName}}</MenuItem>
           </Submenu>
         </Menu>
       </Sider>
@@ -121,7 +87,7 @@
             size="24"
           ></Icon>
           <Breadcrumb class="bread">
-            <BreadcrumbItem >Home</BreadcrumbItem>
+            <BreadcrumbItem >主页</BreadcrumbItem>
           </Breadcrumb>
         </Header>
         <Content :style="{margin: '20px', background: '#fff', minHeight: '260px'}">
@@ -137,11 +103,13 @@ export default {
   data() {
     return {
       isCollapsed: false,
+      sider:[]
     };
   },
   created(){
     getSider().then(res=>{
       console.log(res);
+      this.sider = res.data.data
     })
   },
   computed: {
@@ -156,8 +124,8 @@ export default {
     collapsedSider() {
       this.$refs.side1.toggleCollapse();
     },
-    aaa(a){
-      console.log(a);
+    path(p){
+      return '/home/'+p
     }
   },
 };

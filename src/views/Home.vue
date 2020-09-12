@@ -1,7 +1,7 @@
 <template>
   <div> 
     <Skeleton>
-      
+      <router-view/>
     </Skeleton>
   </div>
 </template>

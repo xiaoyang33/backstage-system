@@ -14,11 +14,27 @@ const routes = [
   },
   {
     path:'/home',
+    name:'首页',
     component:()=>import('../views/Home.vue'),
     children:[
       {
+        path:'/',
+        redirect:'home'
+      },
+      {
+        path:'home',
+        name:'主页',
+        component:()=>import('../views/HomeChi.vue')
+      },
+      {
         path:'roles',
+        name:'角色列表',
         component:()=>import('../views/jurAdmin/RolesList.vue')
+      },
+      {
+        path:'rights',
+        name:"权限列表",
+        component:()=>import('../views/jurAdmin/RightsList.vue')
       }
     ]
   }

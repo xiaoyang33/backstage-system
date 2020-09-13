@@ -17,8 +17,20 @@ const routes = [
     component:()=>import('../views/Home.vue'),
     children:[
       {
-        path:'userAdmin',
-        component:()=>import('../views/userAdmin/UserAdmin.vue'),
+        path:'/home',
+        redirect:'users'
+      },
+      {
+        path:'users',
+        component:()=>import('../views/userAdmin/UserAdmin.vue')
+      },
+      {
+        path:'roles',
+        component:()=>import('../views/jurAdmin/RolesList.vue')
+      },
+      {
+        path:'orders',
+        component:()=>import('../views/orderAdmin/OrderAdmin.vue')
       }
     ]
   }

@@ -1,15 +1,31 @@
 <template>
-  <div>
-    我是权限
-  </div>
+<div>
+    <usrechild></usrechild>
+</div>
+
 </template>
 
 <script>
+import usrechild from './childCpns/userchild'
 export default {
+    props: {
 
-}
+    },
+    data() {
+        return {
+
+        };
+    },
+    methods: {
+
+    },
+    components: {
+        usrechild,
+    },
+};
 </script>
 
-<style>
+<style scoped lang="less">
+
 
 </style>

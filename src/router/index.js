@@ -14,23 +14,36 @@ const routes = [
   },
   {
     path:'/home',
+    name:'首页',
     component:()=>import('../views/Home.vue'),
     children:[
-      {
-        path:'/home',
-        redirect:'users'
-      },
+    
       {
         path:'users',
         component:()=>import('../views/userAdmin/UserAdmin.vue')
       },
       {
+        path:'/',
+        redirect:'home'
+      },
+      {
+        path:'home',
+        name:'主页',
+        component:()=>import('../views/HomeChi.vue')
+      },
+      {
         path:'roles',
+        name:'角色列表',
         component:()=>import('../views/jurAdmin/RolesList.vue')
       },
       {
         path:'orders',
         component:()=>import('../views/orderAdmin/OrderAdmin.vue')
+      },
+      {
+        path:'rights',
+        name:"权限列表",
+        component:()=>import('../views/jurAdmin/RightsList.vue')
       }
     ]
   }

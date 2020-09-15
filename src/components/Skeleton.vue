@@ -51,29 +51,50 @@
 .bread{
   display: inline-block;
 }
+.sider{
+  height: calc(99.7vh - 80px);
+}
+.header{
+  height: 80px;
+  line-height: 80px;
+  background: #515A6E;
+  color: #fff;
+  font-size: 40px;
+  border-bottom: 2px solid #ccc;
+  text-indent: 3rem;
+}
+.container{
+  height: calc(99.7vh - 84px - 80px);
+  overflow: auto;
+  padding-top: 15px;
+  padding-left: 20px;
+}
 </style>
 <template>
   <div class="layout">
+    <header class="header">商品后台管理系统</header>
     <Layout>
       <Sider
-        :style="{height:'99.7vh'}"
+      class="sider"
         ref="side1"
         hide-trigger
         collapsible
         :collapsed-width="78"
         v-model="isCollapsed"
       >
-        <Menu theme="dark" width="auto" :class="menuitemClasses">
+        <Menu theme="dark" width="auto" accordion  :class="menuitemClasses">
           <Submenu :name="index" v-for="(item,index) in sider" :key="item.id">
               <template slot="title">
-               <Icon type="ios-people-outline" />
+               <Icon :type="list[index]" />
                   {{item.authName}}
               </template>
               <MenuItem v-for="(it,ind) in item.children" 
               :key="it.id" 
               :to="path(it.path)" 
               :name="index+'-'+ind">
-              {{it.authName}}</MenuItem>
+              <!-- <Icon :type="list[ind+1]" /> -->
+              {{it.authName}}
+              </MenuItem>
           </Submenu>
         </Menu>
       </Sider>
@@ -86,12 +107,16 @@
             type="md-menu"
             size="24"
           ></Icon>
-          <Breadcrumb class="bread">
-            <BreadcrumbItem >主页</BreadcrumbItem>
+          <Breadcrumb separator=">" class="bread">
+            <BreadcrumbItem to="/home">首页</BreadcrumbItem>
+            <BreadcrumbItem to="/home">未完成</BreadcrumbItem>
+            <BreadcrumbItem to="/home">未完成</BreadcrumbItem>
           </Breadcrumb>
         </Header>
-        <Content :style="{margin: '20px', background: '#fff', minHeight: '260px'}">
-          <slot></slot>
+        <Content :style="{margin: '20px','margin-bottom':0, background: '#fff', minHeight: '260px'}">
+          <div class="container" ref="aa">
+            <slot></slot>
+          </div>
         </Content>
       </Layout>
     </Layout>
@@ -103,14 +128,22 @@ export default {
   data() {
     return {
       isCollapsed: false,
-      sider:[]
+      sider:[],
+      list:[
+        'ios-people',
+        'md-lock',
+        'ios-cart',
+        'md-repeat',
+        'ios-stats'
+      ]
     };
   },
   created(){
     getSider().then(res=>{
-      console.log(res);
+      // console.log(res);
       this.sider = res.data.data
     })
+    // console.log(this.$route);
   },
   computed: {
     rotateIcon() {

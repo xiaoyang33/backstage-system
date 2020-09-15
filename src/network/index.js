@@ -4,7 +4,7 @@ import axios from 'axios'
 export default function (options) {
 
   const request = axios.create({
-    baseURL: 'http://192.168.1.8:8888/api/private/v1/',
+    baseURL: 'http://192.168.1.13:8888/api/private/v1/',
     timeout: 5000
   })
 

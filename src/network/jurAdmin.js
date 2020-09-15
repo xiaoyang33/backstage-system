@@ -21,3 +21,35 @@ export function addRoles(roles){
     data:roles
   })
 }
+
+export function delRoles(id){
+  return request({
+    url:'/roles/'+id,
+    method:'delete'
+  })
+}
+
+export function compile(id,roles){
+  return request({
+    url:'/roles/'+id,
+    method:'put',
+    data:roles
+  })
+}
+
+export function getTreeRights(){
+  return request({
+    url:'/rights/tree',
+    method:'get'
+  })
+
+}
+export function RolesAuth(roleId,idList){
+  return request({
+    url:`roles/${roleId}/rights`,
+    method:'post',
+    data:{
+      rids:idList
+    }
+  })
+}

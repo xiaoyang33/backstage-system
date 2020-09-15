@@ -63,6 +63,10 @@
   border-bottom: 2px solid #ccc;
   text-indent: 3rem;
 }
+.ivu-layout{
+  height: calc(99.7vh - 84px);
+  overflow: hidden;
+}
 .container{
   height: calc(99.7vh - 84px - 80px);
   overflow: auto;

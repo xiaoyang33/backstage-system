@@ -22,7 +22,6 @@ export default {
 .handleBtn{
   display: flex;
   justify-content: space-evenly;
-  
 }
 
 </style>

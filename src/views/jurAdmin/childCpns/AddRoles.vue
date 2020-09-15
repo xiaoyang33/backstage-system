@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Modal title="添加用户" v-model="isShow"  @on-ok="makeSure"  class-name="vertical-center-modal">
+    <Modal :title="title" v-model="isShow"  @on-ok="makeSure"  class-name="vertical-center-modal">
       <div  class="ipt">
         <div class="ipt-item">
           <span><span class="req">*</span> 角色名称</span><Input v-model="roles.roleName" placeholder="请输入角色" clearable style="width: 400px" />
@@ -14,8 +14,10 @@
 </template>
 
 <script>
-import {addRoles} from '../../../network/jurAdmin'
 export default {
+  props:{
+    title:''
+  },
   data() {
     return {
       isShow:false,
@@ -27,15 +29,7 @@ export default {
   },
   methods:{
     makeSure(){
-      // this.$Message.success('chenggong')
-      addRoles(this.roles).then(res=>{
-        console.log(res);
-        if(res.data.meta.status == 201){
-          this.$Message.success(res.data.meta.msg)
-        }else{
-          this.$Message.warning(res.data.meta.msg)
-        }
-      })
+      this.$emit('addsucc',this.roles)
       this.roles.roleName = ''
       this.roles.roleDesc = ''
     }

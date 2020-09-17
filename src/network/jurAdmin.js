@@ -53,3 +53,10 @@ export function RolesAuth(roleId,idList){
     }
   })
 }
+export function  deleteRights(roleId,rightId) {
+  
+  return request({
+    url:`roles/${roleId}/rights/${rightId}`,
+    method:'delete',
+  })
+}

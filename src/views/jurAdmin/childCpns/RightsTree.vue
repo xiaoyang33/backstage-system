@@ -3,7 +3,7 @@
   <div class="tree">
   <div class="close" @click="treeClose"><Icon type="ios-close-circle-outline" size="30" /></div>
     <div class="tree-item">
-      <Tree  ref="tree" check-directly :data="treeList" show-checkbox multiple></Tree>
+      <Tree  ref="tree"  check-directly  :data="treeList" show-checkbox multiple></Tree>
     </div>
     <div class="btn">
       <HadnleBtn>

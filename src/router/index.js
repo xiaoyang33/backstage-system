@@ -35,7 +35,36 @@ const routes = [
         path:'rights',
         name:"权限列表",
         component:()=>import('../views/jurAdmin/RightsList.vue')
-      }
+      },
+      {
+        path:'goods',
+        name:'商品列表',
+        component:()=>import('../views/goodsAdmin/Goods.vue'),
+        children:[
+          {
+            path:'/',
+            redirect:'main'
+          },
+          {
+            path:'main',
+            component:()=>import('../views/goodsAdmin/MainGoods.vue')
+          },
+          {
+            path:'addgoods',
+            component:()=>import('../views/goodsAdmin/AddGoods.vue')
+          }
+        ]
+      },
+      {
+        path:'params',
+        name:'分类参数',
+        component:()=>import('../views/goodsAdmin/CategoryParams.vue')
+      },
+      {
+        path:'categories',
+        name:'商品分类',
+        component:()=>import('../views/goodsAdmin/GoodsCategory.vue')
+      },
     ]
   }
 

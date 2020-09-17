@@ -1,12 +1,22 @@
 <template>
   <div>
-    <Modal :title="title" v-model="isShow"  @on-ok="makeSure"  class-name="vertical-center-modal">
-      <div  class="ipt">
+    <Modal title="添加分类" v-model="isShow" @on-ok="makeSure" class-name="vertical-center-modal">
+      <div class="ipt">
         <div class="ipt-item">
-          <span><span class="req">*</span> 角色名称</span><Input v-model="roles.roleName" placeholder="请输入角色" clearable style="width: 400px" />
+          <span>
+            <span class="req">*</span> 分类名称
+          </span>
+          <Input v-model="roles.roleName" placeholder="请输入分类名称" clearable style="width: 400px" />
         </div>
         <div class="ipt-item">
-          <span>角色描述</span><Input :autosize="{minRows: 2}" type="textarea" v-model="roles.roleDesc" placeholder="请输入描述"  style="width: 400px" />
+          <span>父级分类</span>
+          <Input
+            :autosize="{minRows: 2}"
+            type="textarea"
+            v-model="roles.roleDesc"
+            placeholder="请输入描述"
+            style="width: 400px"
+          />
         </div>
       </div>
     </Modal>
@@ -16,23 +26,30 @@
 <script>
 export default {
   props:{
-    title:''
+    compile:{}
   },
   data() {
     return {
-      isShow:false,
-      roles:{
-        roleName:'',
-        roleDesc:''
-      }
+      isShow: false,
+      roles: {
+        roleName: "",
+        roleDesc: "",
+      },
     };
   },
-  methods:{
-    makeSure(){
-      this.$emit('addsucc',this.roles)
-      this.roles.roleName = ''
-      this.roles.roleDesc = ''
-    }
+  watch: {
+    compile() {
+      // console.log(this.compile);
+      this.roles.roleName = this.compile.name
+      this.roles.roleDesc = this.compile.desc
+    },
+  },
+  methods: {
+    makeSure() {
+      this.$emit("addsucc", this.roles);
+      this.roles.roleName = "";
+      this.roles.roleDesc = "";
+    },
   }
 };
 </script>
@@ -46,14 +63,14 @@ export default {
     top: 0;
   }
 }
-.ipt-item{
+.ipt-item {
   margin: 20px 0;
-  &>span{
+  & > span {
     display: inline-block;
     width: 70px;
     text-align: right;
     margin-right: 10px;
-    .req{
+    .req {
       color: #ff5777;
     }
   }

@@ -6,7 +6,7 @@
           <span> 当前的用户</span> 
         </div>
         <div class="ipt-item">
-          <span>当前的角色</span>
+          <span>当前的角色 :</span>
         </div>
         <div class="ipt-item">
           <span>分配新角色</span> <Select v-model="model8" clearable style="width:200px">

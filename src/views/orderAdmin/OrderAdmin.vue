@@ -1,10 +1,13 @@
 <template>
     <div>
-            我是订单管理
+        <orderChild></orderChild>
+        <ordePage></ordePage>
     </div>
 </template>
 
 <script>
+import orderChild from './childCpns/orderChild'
+import ordePage from './childCpns/ordePage'
 export default {
     props: {
 
@@ -18,6 +21,8 @@ export default {
 
     },
     components: {
+        orderChild,
+        ordePage
 
     },
 };

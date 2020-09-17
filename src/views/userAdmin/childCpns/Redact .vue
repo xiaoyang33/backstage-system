@@ -21,7 +21,7 @@ export default {
   data() {
     return {
       mmk:false,
-      roles:{
+        roles:{
         username:'',
         email:'',
         mobile:''
@@ -32,6 +32,7 @@ export default {
     redactL(){
       redact(this.roles).then(res=>{
         console.log(res);
+        console.log(email);
       this.roles.username = res.data.username
       this.roles.email= res.data.email
       this.roles.mobile= res.data.mobile

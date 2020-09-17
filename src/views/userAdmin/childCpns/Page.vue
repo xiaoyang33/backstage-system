@@ -1,7 +1,7 @@
          <!-- 分页器 -->
 <template>
 <div class="pag">
-     <Page :total="10" show-total show-elevator />
+     <Page :total="zs" show-total  show-elevator />
 
 </div>
 </template>
@@ -13,13 +13,16 @@ export default {
     },
     data() {
         return {
-            list:[]
+            list:[],
+            zs: null,
         };
     },
     created(){
         uresPag().then((res)=>{
             console.log(res.data.data);
             this.list =res.data.data
+            this.zs = res.data.data.total
+
         })
     },
     methods: {

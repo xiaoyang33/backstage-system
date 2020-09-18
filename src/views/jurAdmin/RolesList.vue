@@ -27,7 +27,7 @@
                 slot="left"
                 type="primary"
                 style="margin-right: 5px"
-                @click="compile(item.id)"
+                @click="compile(item.id,item.roleName,item.roleDesc)"
               >
                 <Icon type="ios-brush-outline" />编辑
               </Button>
@@ -45,20 +45,29 @@
             <table>
               <tbody>
                 <tr v-for="ite in item.children" :key="ite.id">
-                  <td>
-                    <Tag closable color="blue" size="large">{{ite.authName}}</Tag>
+                  <td class="rrrr">
+                    <Tag closable
+                    @on-close="handleColse(item.id,ite.id)"
+                     color="blue" size="large">{{ite.authName}}</Tag>
                   </td>
                   <table>
                     <tbody>
                       <tr v-for="it in ite.children" :key="it.id">
-                        <td>
-                          <Tag color="green" size="large">{{it.authName}}</Tag>
+                        <td class="rrrr">
+                          <Tag closable
+                            @on-close="handleColse(item.id,it.id)"
+                           color="green" size="large">{{it.authName}}</Tag>
                         </td>
                         <table>
                           <tr v-for="i in it.children" :key="i.id">
                             <td>
-                               <Tag color="volcano" size="large"> {{i.authName}}</Tag>
-                              </td>
+                              <Tag
+                                @on-close="handleColse(item.id,i.id)"
+                                closable
+                                color="volcano"
+                                size="large"
+                              >{{i.authName}}</Tag>
+                            </td>
                           </tr>
                         </table>
                       </tr>
@@ -73,7 +82,7 @@
     </ul>
 
     <AddRoles ref="Addroles1" @addsucc="handleaAdd" title="添加用户"></AddRoles>
-    <AddRoles ref="Addroles2" @addsucc="handleComp" title="编辑用户"></AddRoles>
+    <AddRoles :compile="compileInfo" ref="Addroles2" @addsucc="handleComp" title="编辑用户"></AddRoles>
 
     <Modal v-model="isShow" class-name="vertical-center-modal">
       <p>确定删除么..</p>
@@ -84,7 +93,6 @@
       @treeClose="treeClose"
       @cancel="handleCancel"
       @confirm="handleConfirm"
-     
     />
   </div>
 </template>
@@ -97,7 +105,8 @@ import {
   compile,
   getTreeRights,
   getRights,
-  RolesAuth
+  RolesAuth,
+  deleteRights,
 } from "../../network/jurAdmin";
 import AddRoles from "./childCpns/AddRoles";
 import HandleBtn from "../../components/HandleBtn";
@@ -114,14 +123,30 @@ export default {
       currentIndex: [],
       roleList: [],
       isShow: false,
-      compileId: "",
+      compileInfo: null,
       compileRole: {},
       showTree: false,
       rightsList: [],
-      roleSelectedId:''
+      roleSelectedId: "",
     };
   },
   methods: {
+    // 处理删除tag
+    handleColse(roleId, rightId) {
+      // console.log(roleId,rightId);
+      this.$Modal.confirm({
+        title: "确认",
+        content: "<p>确认删除</p>",
+        onOk: () => {
+          //  console.log("正在删除");
+          deleteRights(roleId, rightId).then((res) => {
+            //  console.log(res);
+            this.$Message.success(res.data.meta.msg);
+            this.get();
+          });
+        },
+      });
+    },
     // 删除角色
     remove(id) {
       this.$Modal.confirm({
@@ -141,8 +166,8 @@ export default {
     // 处理编辑事件
     handleComp(roles) {
       // console.log(roles);
-      compile(this.compileId, roles).then((res) => {
-        console.log(res);
+      compile(this.compileInfo.id, roles).then((res) => {
+        // console.log(res);
         if (res.data.meta.status == 200) {
           this.$Message.success("修改成功");
         } else {
@@ -153,22 +178,22 @@ export default {
     },
     // 权限添加处理
     handleConfirm(selectedList) {
-      RolesAuth(this.roleSelectedId,selectedList).then(res=>{
+      RolesAuth(this.roleSelectedId, selectedList).then((res) => {
         console.log(res);
-        if(res.data.meta.status === 200){
-           this.$Message.success(res.data.meta.msg);
-           this.get();
+        if (res.data.meta.status === 200) {
+          this.$Message.success(res.data.meta.msg);
+          this.get();
         }
-      })
-      this.getTree()
+      });
+      this.getTree();
       this.showTree = false;
     },
     handleCancel() {
-       this.getTree()
+      this.getTree();
       this.showTree = false;
     },
     treeClose() {
-       this.getTree()
+      this.getTree();
       this.showTree = false;
     },
     // 添加成功后重新请求数据刷新页面
@@ -188,19 +213,24 @@ export default {
     // 添加角色
     btnClick() {
       this.$refs.Addroles1.isShow = true;
-      this.get()
+      this.get();
     },
     // 编辑数据
-    compile(id) {
-      console.log(id);
-      this.compileId = id;
+    compile(id, name, desc) {
+      // console.log(id,name,desc);
+      let obj = {
+        id,
+        name,
+        desc,
+      };
+      this.compileInfo = obj;
       this.$refs.Addroles2.isShow = true;
     },
     // 分配权限
-    alloctaion(item,selected) {
+    alloctaion(item, selected) {
       // console.log(item);
       // console.log(selected);
-      this.roleSelectedId = selected
+      this.roleSelectedId = selected;
       let arr = this.getRightsId(item);
       // console.log(arr);
       this.rightsList = this.format(this.rightsList, arr);
@@ -220,29 +250,29 @@ export default {
       }
     },
     // 格式化数据树需要的数据
-    format(data,idList) {
+    format(data, idList) {
       if (data == undefined) {
         return;
       }
       let arr = [];
       // console.log(idList)
       data.forEach((item) => {
-        let obj  = null
+        let obj = null;
         if (idList.some((ite) => item.id === ite)) {
-           obj = {
+          obj = {
             checked: true,
-            selected:true,
+            selected: true,
             expand: true,
             id: item.id,
             title: item.authName,
-            children: this.format(item.children,idList),
+            children: this.format(item.children, idList),
           };
-        }else{
+        } else {
           obj = {
             expand: true,
             id: item.id,
             title: item.authName,
-            children: this.format(item.children,idList),
+            children: this.format(item.children, idList),
           };
         }
 
@@ -250,7 +280,7 @@ export default {
       });
       return arr;
     },
-    // 获取选中的角色的数据的权限id
+    // 获取选中的角色的所有的的权限id
     getRightsId(roles) {
       let arr = [];
       // arr.push(roles.id)
@@ -268,20 +298,20 @@ export default {
     // 获取数据页面列表数据
     get() {
       getUsers().then((res) => {
-        // console.log(res.data.data);
+        console.log(res.data.data);
         this.roleList = res.data.data;
       });
     },
-    getTree(){
+    getTree() {
       getTreeRights().then((res) => {
-      // console.log(res.data);
-      this.rightsList = res.data.data;
-    });
-    }
+        // console.log(res.data);
+        this.rightsList = res.data.data;
+      });
+    },
   },
   created() {
     this.get();
-    this.getTree()
+    this.getTree();
   },
 };
 </script>
@@ -319,9 +349,31 @@ export default {
         height: 38px;
         line-height: 38px;
         text-align: center;
+        &.rrrr {
+          div {
+            position: relative;
+            overflow: visible;
+            &::after {
+              content: "▶";
+              position: absolute;
+              right: -20px;
+              top: 0;
+              color: #ccc;
+            }
+          }
+        }
       }
     }
   }
+}
+.ivu-tag-blue .ivu-icon-ios-close {
+  color: #1890ff !important;
+}
+.ivu-tag-green .ivu-icon-ios-close {
+  color: #52c41a !important;
+}
+.ivu-tag-volcano .ivu-icon-ios-close {
+  color: #fa541c !important;
 }
 .open {
   transform: rotate(-180deg);
@@ -341,6 +393,9 @@ export default {
     border-bottom: 1px solid #eee;
     height: 38px;
     line-height: 38px;
+    // white-space: nowrap;
+    // text-overflow: ellipsis;
+    // overflow: hidden;
     &:first-child {
       width: 60px;
     }

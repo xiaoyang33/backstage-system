@@ -35,6 +35,7 @@ export default {
     }
   }
 };
+
 </script>
 <style lang="less" scoped>
 .vertical-center-modal {

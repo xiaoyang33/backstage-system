@@ -31,7 +31,7 @@
               >
                 <Icon type="ios-brush-outline" />编辑
               </Button>
-              <Button slot="center" type="error" @click="remove(item.id)">
+                <Button slot="center" type="error" @click="remove(item.id)">
                 <Icon type="ios-trash-outline" />删除
               </Button>
               <Button slot="right" type="warning" @click="alloctaion(item.children,item.id)">

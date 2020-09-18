@@ -26,10 +26,9 @@
  </Table>
 
     <AddUsers ref="AddUsers" />
-    <Redact ref="Redact" />
-
+    <!-- <Redact ref="Redact" @addsucc="handleComp" title="编辑用户"/> -->
 </div>
-        
+
 </template>
 <script>
 import {uresLb,removeUs,redact} from '../../../network/userAdmin'
@@ -89,6 +88,7 @@ export default {
                 data1: [],                
                 switch1:false,
                 ssk:'',
+                redactId:''
                 
             }
         },
@@ -97,19 +97,36 @@ export default {
             this.data1 = res.data.data.users;
         })
     },
+    //删除
     methods: {
-            remove (row) {
+            remove(row) {
                 console.log(row);
                 removeUs(row).then((res)=>{
-                console.log(res.data.meta.msg)
+                console.log(res.data.meta)
                 })
                 this.$Message.success('删除成功');
                 // this.$Message.success(res.data.meta.msg);   
-               
+                //   if (res.data.meta.status == 200) {
+                //         this.$Message.success("修改成功");
+                //         } else {
+                //         this.$Message.warning(res.data.meta.msg);
+                //         }
+                        
             },
-            btnClick(){
-            this.$refs.AddUsers.isShow = true
-            },
+
+            //   // 编辑事件
+            //         handleComp(roles) {
+            //         // console.log(roles);
+            //         redact(this.redactId, roles).then((res) => {
+            //             console.log(res);
+            //             if (res.data.meta.status == 200) {
+            //             this.$Message.success("修改成功");
+            //             } else {
+            //             this.$Message.warning(res.data.meta.msg);
+            //             }
+            //             // this.get();
+            //         });
+            //         },
 
             change (status) {
                      uresLb().then((res)=>{
@@ -124,9 +141,16 @@ export default {
                 this.data1 = res.data.data.users;
         })
             },
-            show(index,row){
-                  console.log(index,row);
-                 this.$refs.Redact.mmk= true
+            //       按钮 
+            // show(index,row){
+            //       console.log(row);
+            //      this.redactId = row;
+            //      this.$refs.Redact.mmk= true
+            // },
+                //添加  
+            btnClick(){
+            this.$refs.AddUsers.isShow = true
+            // this.get();
             },
 
     },

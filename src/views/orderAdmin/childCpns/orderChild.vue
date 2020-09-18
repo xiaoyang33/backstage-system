@@ -6,24 +6,25 @@
     </div>
 </div>
  <Table border :columns="columns1" :data="data1">
-    <template slot-scope="{index,row}" slot="action">
-        <Button type="primary" style="margin:0 10px"  @click="show(index,row.id)">
+    <template slot-scope="{}" slot="action">
+        <Button type="primary" style="margin:0 10px"  @click="edit">
           <Icon type="ios-brush-outline" />
         </Button>
         <Button type="warning">
-          <Icon type="ios-settings-outline" />
+          <Icon type="ios-settings-outline"  />
         </Button>
       </template>
       <template  slot="butt">
           <Button type="error" ghost>未付款</Button>
       </template>
  </Table>
-    
+    <EditAddress ref="EditAddress" />
 </div>
 </template>
 <script>
 import {orders} from '../../../network/orderAdime'
 import times from '../../../network/time'
+import EditAddress from './EditAddress'
 export default {
     props: {
 
@@ -82,27 +83,31 @@ export default {
          orders().then((res)=>{
             
              console.log(res.data.data.goods);
+             //时间戳转换
                   for(let i=0;i<res.data.data.goods.length;i++){
                 var date=new Date(res.data.data.goods[i].create_time);
                 res.data.data.goods[i].create_time=times(date);
              }
-            this.data1 = res.data.data.goods;
+             this.data1 = res.data.data.goods;
 
-        
-            
+
         })
     },
     methods: {
         ss(){
-            orders(this.soso).then((res)=>{
+             orders(this.soso).then((res)=>{
                 // console.log(res);
-            this.data1 = res.data.data.goods;
+             this.data1 = res.data.data.goods;
         })
 
-        }       
+        },  
+        edit(){
+            this.$refs.EditAddress.isShow = true
+            },
     },
-
+    
     components: {
+        EditAddress
 
     },
 };

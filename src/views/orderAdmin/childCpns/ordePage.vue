@@ -1,7 +1,7 @@
 <template>
     <div class="pag">
      <Page :total="zy" show-total  show-elevator />
-
+     
     </div>
 </template>
 

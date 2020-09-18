@@ -22,7 +22,7 @@ export default {
             console.log(res.data.data);
             this.list =res.data.data
             this.zs = res.data.data.total
-
+            
         })
     },
     methods: {

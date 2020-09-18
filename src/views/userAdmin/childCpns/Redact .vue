@@ -16,8 +16,13 @@
   </div>
 </template>
 <script>
-import {redact} from '../../../network/userAdmin'
+
+
+
 export default {
+  props:{
+    title:''
+  },
   data() {
     return {
       mmk:false,
@@ -29,14 +34,11 @@ export default {
     };
   },
   methods:{
-    redactL(){
-      redact(this.roles).then(res=>{
-        console.log(res);
-        console.log(email);
-      this.roles.username = res.data.username
-      this.roles.email= res.data.email
-      this.roles.mobile= res.data.mobile
-      })
+    makeSure(){
+      this.$emit('addsucc',this.roles)
+      this.roles.username = ''
+      this.roles.email = ''
+      this.roles.mobile = ''
     }
   }
 };

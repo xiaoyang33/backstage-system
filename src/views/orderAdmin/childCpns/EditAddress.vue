@@ -17,7 +17,7 @@ export default {
     data () {
             return {
                 value1: [],
-                 value17: '',
+                value17: '',
                 isShow:false,
                 data: [{
                     value: 'beijing',

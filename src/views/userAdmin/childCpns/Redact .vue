@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Modal title="修改用户" v-model="mmk"  @on-ok="redactL"  class-name="vertical-center-modal">
+    <Modal title="修改用户" v-model="isShow"   @on-ok="makeSure" class-name="vertical-center-modal">
       <div  class="ipt">
         <div class="ipt-item">
           <span><span class="req">*</span> 用户名</span><Input  v-model="roles.username" disabled clearable style="width: 400px" />
@@ -21,11 +21,12 @@
 
 export default {
   props:{
-    title:''
+    compile:{}
+
   },
   data() {
     return {
-      mmk:false,
+      isShow:false,
         roles:{
         username:'',
         email:'',
@@ -33,13 +34,20 @@ export default {
       }
     };
   },
-  methods:{
-    makeSure(){
-      this.$emit('addsucc',this.roles)
-      this.roles.username = ''
-      this.roles.email = ''
-      this.roles.mobile = ''
-    }
+ watch: {
+    compile() {
+      this.roles.username = this.compile.username
+      this.roles.email = this.compile.email
+      this.roles.mobile = this.compile.mobile
+    },
+  },
+  methods: {
+    makeSure() {
+      this.$emit("addsucc", this.roles);
+      this.roles.username = "";
+      this.roles.email = "";
+      this.roles.mobile = "";
+    },
   }
 };
 

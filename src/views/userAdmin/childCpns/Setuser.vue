@@ -1,70 +1,90 @@
 <template>
-    <div>
-    <Modal title="分配角色" v-model="SZ"  @on-ok="Setuser"  class-name="vertical-center-modal">
+  <div>
+    <Modal title="修改用户" v-model="isShow"   @on-ok="makeSure" class-name="vertical-center-modal">
       <div  class="ipt">
         <div class="ipt-item">
-          <span> 当前的用户</span> 
+          <span><span class="req">*</span> 用户名</span><Input  v-model="roles.username" disabled clearable style="width: 400px" />
         </div>
         <div class="ipt-item">
-          <span>当前的角色 :</span>
+          <span><span class="req">*</span>邮箱</span><Input  v-model="roles.role_name" type="email" email disabled clearable style="width: 400px" />
         </div>
-        <div class="ipt-item">
+    <div class="ipt-item">
           <span>分配新角色</span> <Select v-model="model8" clearable style="width:200px">
         <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-    </Select>
-        </div>
+        </Select>
+    </div>
       </div>
     </Modal>
-    </div>
+  </div>
+
 </template>
-
 <script>
-import {Setuser} from '../../../network/userAdmin'
+
+
+
 export default {
-    props: {
+  props:{
+      
+    compile:{}
 
+  },
+  data() {
+    return {
+                    cityList: [
+                {
+                    label: '主管'
+                },
+                {
+                    label: '测试1'
+                },
+                  {
+                    label: '测试2'
+                },
+            ],
+            model8: '',
+      isShow:false,
+        roles:{
+        username:'',
+        role_name:'',
+      }
+    };
+  },
+ watch: {
+    compile() {
+      this.roles.username = this.compile.username
+      this.roles.role_name = this.compile.role_name
     },
-    data() {
-        return {
-             cityList: [
-                    {
-                        value: 'New York',
-                        label: 'New York'
-                    },
-                    {
-                        value: 'London',
-                        label: 'London'
-                    },
-                    {
-                        value: 'Sydney',
-                        label: 'Sydney'
-                    },
-                    {
-                        value: 'Ottawa',
-                        label: 'Ottawa'
-                    },
-                    {
-                        value: 'Paris',
-                        label: 'Paris'
-                    },
-                    {
-                        value: 'Canberra',
-                        label: 'Canberra'
-                    }
-                ],
-                model8: ''
-        };
+  },
+  methods: {
+    makeSure() {
+      this.$emit(this.roles);
+      this.roles.username = "";
+      this.roles.role_name = "";
     },
- 
-    methods: {
-        Setuser()
-    },
-    components: {
-        Setuser
-    },
+  }
 };
+
 </script>
+<style lang="less" scoped>
+.vertical-center-modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-<style scoped lang="less">
-
+  .ivu-modal {
+    top: 0;
+  }
+}
+.ipt-item{
+  margin: 20px 0;
+  &>span{
+    display: inline-block;
+    width: 70px;
+    text-align: right;
+    margin-right: 10px;
+    .req{
+      color: #ff5777;
+    }
+  }
+}
 </style>

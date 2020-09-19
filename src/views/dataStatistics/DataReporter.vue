@@ -1,10 +1,11 @@
 <template>
     <div>
-        我是折线
+    <DataCh></DataCh>
     </div>
 </template>
 
 <script>
+import DataCh from './dataChild/dataChild'
 export default {
     props: {
 
@@ -18,6 +19,7 @@ export default {
 
     },
     components: {
+        DataCh
 
     },
 };

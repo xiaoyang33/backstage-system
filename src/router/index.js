@@ -17,9 +17,10 @@ const routes = [
     name:'首页',
     component:()=>import('../views/Home.vue'),
     children:[
-    
+      
       {
         path:'users',
+        name:'用户列表',
         component:()=>import('../views/userAdmin/UserAdmin.vue')
       },
       {
@@ -39,6 +40,11 @@ const routes = [
       {
         path:'orders',
         component:()=>import('../views/orderAdmin/OrderAdmin.vue')
+      },
+      {
+        path:'reports',
+        name:'折线图',
+        component:()=>import('../views/dataStatistics/DataReporter.vue')
       },
       {
         path:'rights',
@@ -74,6 +80,7 @@ const routes = [
         name:'商品分类',
         component:()=>import('../views/goodsAdmin/GoodsCategory.vue')
       },
+ 
     ]
   }
 

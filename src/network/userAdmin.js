@@ -9,7 +9,7 @@ export function uresLb(wcnm) {
       params:{
       query:wcnm,
       pagenum:1,
-      pagesize:5
+      pagesize:6
     }
   })
 }
@@ -41,7 +41,7 @@ export function uresPag() {
   })
 }
 //编辑
-export function redact(id,roles) {
+export function redact(id,roles,) {
   return request({
     method: 'put',
     url: `/users/${id}`,

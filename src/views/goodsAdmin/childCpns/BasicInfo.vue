@@ -5,28 +5,28 @@
         <i>* </i>
         <span> 商品名称</span>
       </div>
-      <Input v-model="fromInfo.goodsName" placeholder="请输入商品名称" width="100%" />
+      <Input v-model="fromInfo.goods_name" placeholder="请输入商品名称" width="100%" />
     </div>
     <div class="form-item">
       <div>
         <i>* </i>
         <span> 商品价格</span>
       </div>
-      <Input v-model="fromInfo.goodsPrice" placeholder="请输入商品价格" width="100%" />
+      <Input v-model="fromInfo.goods_price" placeholder="请输入商品价格" width="100%" />
     </div>
     <div class="form-item">
       <div>
         <i>* </i>
         <span> 商品重量</span>
       </div>
-      <Input v-model="fromInfo.goodsWeight" placeholder="请输入商品重量" width="100%" />
+      <Input v-model="fromInfo.goods_weight" placeholder="请输入商品重量" width="100%" />
     </div>
     <div class="form-item">
       <div>
         <i>* </i>
         <span> 商品数量</span>
       </div>
-      <Input v-model="fromInfo.goodsNum" type="number" min="0" placeholder="请输入商品数量" width="100%" />
+      <Input v-model="fromInfo.goods_number" type="number" min="0" placeholder="请输入商品数量" width="100%" />
     </div>
     <div class="selCate">
       <div>
@@ -49,11 +49,11 @@ export default {
     data(){
       return {
         fromInfo:{
-          goodsName:'',
-          goodsPrice:0,
-          goodsWeight:0,
-          goodsNum:0,
-          selectId:''
+          goods_name:'',
+          goods_price:1,
+          goods_weight:1,
+          goods_number:1,
+          goods_cat:''
         },
        cascader:[],
       }
@@ -77,21 +77,24 @@ export default {
       return arr;
     },
     fin(e,a){
-        console.log(a);
+        // console.log(a);
         let str = ''
         a.forEach(item=>{
           str+=item.cat_id+','
         })
         str=str.substring(0,str.length-1)
-        console.log(str);
-        this.fromInfo.selectId = str
+        // console.log(str);
+        this.fromInfo.goods_cat = str
     }
     },
     created(){
       getCateAll().then(res=>{
-        console.log(res)
+        // console.log(res)
         this.cascader = this.format(res.data.data)
       })
+    },
+    beforeDestroy(){
+      this.$store.commit('setInfo',this.fromInfo)
     }
 }
 </script>

@@ -226,7 +226,7 @@ export default {
   },
   created() {
     getCateAll().then((res) => {
-      console.log(res);
+      // console.log(res);
       this.cascader = this.format(res.data.data);
     });
   },

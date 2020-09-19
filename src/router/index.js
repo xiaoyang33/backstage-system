@@ -20,7 +20,7 @@ const routes = [
     
       {
         path:'users',
-        component:()=>import('../views/userAdmin/UserAdmin.vue')
+        component:()=>import('../views/userAdmin/userAdmin.vue')
       },
       {
         path:'/',

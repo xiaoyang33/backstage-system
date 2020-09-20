@@ -1,7 +1,7 @@
 <template>
     <div>
      <Modal title="物流信息"  v-model="Office"   class-name="vertical-center-modal">
-       <Timeline  v-for="item in list" :key="item.index">
+       <Timeline  v-for="item in list" :key="item.order_id">
          <TimelineItem >
             <p class="time">{{item.context}}</p>
             <p class="content">{{item.ftime}} </p>

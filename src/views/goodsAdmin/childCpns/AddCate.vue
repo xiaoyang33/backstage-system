@@ -6,7 +6,27 @@
           <span>
             <span class="req">*</span> {{colName}}
           </span>
-          <Input  v-model="name" placeholder="请编辑分类名称" clearable style="width: 400px" />
+          <Input  v-model="name" placeholder="请输入名称" clearable style="width: 400px" />
+        </div>
+        <div v-if="title =='编辑商品'">
+          <div class="ipt-item">
+          <span>
+            <span class="req">*</span> 价格
+          </span>
+          <Input  v-model="compGoods.goods_price" placeholder="请输入价格" clearable style="width: 400px" />
+          </div>
+          <div class="ipt-item">
+          <span>
+            <span class="req">*</span> 数量
+          </span>
+          <Input  v-model="compGoods.goods_number" placeholder="请输入数量" clearable style="width: 400px" />
+          </div>
+          <div class="ipt-item">
+          <span>
+            <span class="req">*</span> 重量
+          </span>
+          <Input  v-model="compGoods.goods_weight" placeholder="请输入重量" clearable style="width: 400px" />
+          </div>
         </div>
         <div class="ipt-item" v-if="title == '编辑参数'">
           <span>编辑参数</span>
@@ -44,7 +64,12 @@ export default {
       isShow: false,
       select:[],
       name:'',
-      desc:''
+      desc:'',
+      compGoods:{
+        goods_price:0,
+        goods_number:0,
+        goods_weight:0
+      },
     };
   },
   methods: {
@@ -59,7 +84,7 @@ export default {
       }
 
       let info = this.select[this.select.length -1] || {}
-      console.log(info);
+      // console.log(info);
       let cat_pid = info.cat_id || 0
       let cat_level = info.cat_level + 1 || 0
       let obj = {
@@ -68,10 +93,14 @@ export default {
         cat_name:this.name,
         desc:this.desc
       }
+      this.compGoods['goods_name'] = this.name
+      // console.log(this.compGoods);
       this.name = '',
       this.desc = ''
-      
-      this.$emit("add",obj)
+      this.$emit("add",obj,this.compGoods)
+      this.compGoods.goods_price = 0
+      this.compGoods.goods_number = 0
+      this.compGoods.goods_weight = 0
     },
   }
 };

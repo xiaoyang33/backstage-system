@@ -16,6 +16,29 @@ export function getGoods(pagesize,pagenum,query){
     }
   })
 }
+// 添加商品
+export function addGoods(data){
+  return request({
+    url:'/goods',
+    method:'post',
+    data
+  })
+}
+// 删除商品
+export function deleteGoods(id){
+  return request({
+    url:`/goods/${id}`,
+    method:'delete',
+  })
+}
+// 编辑商品
+export function compileGoods(id,data){
+  return request({
+    url:`/goods/${id}`,
+    method:'put',
+    data
+  })
+}
 /*            分类参数                     */
 // 获取参数列表
 export function getParamsList(id,sel){

@@ -1,10 +1,10 @@
 <template>
     <div>
      <Modal title="订单详情"  v-model="Office"   class-name="vertical-center-modal">
-            <div v-for="item in list" :key="item.index">
+            <div v-for="item in list" :key="item.order_id">
                 <span>快递单号{{item.order_number}}</span>
             </div>
-        </Modal>
+    </Modal>
 
     </div>
 </template>

@@ -3,7 +3,7 @@
     <Modal title="修改用户" v-model="isShow"   @on-ok="makeSure" class-name="vertical-center-modal">
       <div  class="ipt">
         <div class="ipt-item">
-          <span><span class="req">*</span> 用户名</span><Input  v-model="roles.username" disabled clearable style="width: 400px" />
+          <span><span class="req">*</span> 用户名ID</span><Input  v-model="roles.id" disabled clearable style="width: 400px" />
         </div>
         <div class="ipt-item">
           <span><span class="req">*</span>邮箱</span><Input  v-model="roles.email" type="email" email clearable style="width: 400px" />
@@ -28,7 +28,7 @@ export default {
     return {
       isShow:false,
         roles:{
-        username:'',
+        id:'',
         email:'',
         mobile:''
       }
@@ -36,7 +36,8 @@ export default {
   },
  watch: {
     compile() {
-      this.roles.username = this.compile.username
+    
+      this.roles.id = this.compile.id
       this.roles.email = this.compile.email
       this.roles.mobile = this.compile.mobile
     },
@@ -44,7 +45,7 @@ export default {
   methods: {
     makeSure() {
       this.$emit("addsucc", this.roles);
-      this.roles.username = "";
+      this.roles.id = "";
       this.roles.email = "";
       this.roles.mobile = "";
     },

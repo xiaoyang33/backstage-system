@@ -55,11 +55,12 @@ export default {
   },
   methods: {
     compile(row) {
-      console.log(row);
+      // console.log(row);
       this.$emit('compile',row.goods_id)
     },
     remove(row) {
-      console.log(1);
+      // console.log(row);
+      this.$emit('remove',row.goods_id)
     },
   },
   watch:{

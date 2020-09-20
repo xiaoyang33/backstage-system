@@ -10,7 +10,7 @@
 </div>
  <Table border :columns="columns1" :data="data1">
     <template slot-scope="{row}" slot="action">
-        <Button type="primary"  @click="compile(row.username,row.email,row.mobile)">
+        <Button type="primary"  @click="compile( row.id,row.email,row.mobile)">
           <Icon type="ios-brush-outline" />
         </Button>
         <Button style="margin:0 10px" type="error" @click="remove(row.id)">
@@ -142,10 +142,10 @@ export default {
             },
                     //按钮 
                    // 编辑数据
-                compile(username, email, mobile) {
-                // console.log(username,email,mobile);
+                compile( id, email, mobile) {
+                // console.log(id,email,mobile);
                 let obj = {
-                    username,
+                    id,
                     email,
                     mobile,
                 };

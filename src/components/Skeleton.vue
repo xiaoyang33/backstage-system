@@ -1,5 +1,6 @@
 <style scoped>
 .layout {
+  
   border: 1px solid #d7dde4;
   background: #f5f7f9;
   position: relative;
@@ -73,10 +74,20 @@
   padding-top: 15px;
   padding-left: 20px;
 }
+.quit{
+  float: right;
+  margin-right: 30px;
+}
 </style>
 <template>
   <div class="layout">
-    <header class="header">商品后台管理系统</header>
+    <header class="header">商品后台管理系统 
+           <div class="quit">
+        <Button @click="success">退出</Button>
+     </div>
+    </header>
+   
+   
     <Layout>
       <Sider
       class="sider"
@@ -127,7 +138,7 @@
   </div>
 </template>
 <script>
-import {getSider} from '../network/others'
+import {getSider,Login} from '../network/others'
 export default {
   data() {
     return {
@@ -163,7 +174,14 @@ export default {
     },
     path(p){
       return '/home/'+p
-    }
+    },
+    success () {
+       Login().then((res)=>{
+         localStorage.removeItem('token')
+         this.$router.push('/login')
+         this.$Message.success('退出成功');
+       })
+            },
   },
 };
 </script>

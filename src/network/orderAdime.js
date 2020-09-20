@@ -7,8 +7,8 @@ export function orders() {
         params:{
             query:'',
             pagenum:1,
-            pagesize:6,
-        }
+            pagesize:7,
+        },
     })
   }
   
@@ -26,9 +26,14 @@ export function orders() {
     })
 }
 
-// export function Orders(id) {
-//     return request({
-//         method:'get',
-//         url: `/orders/${id}`,
-//     })
-//   }
+export function Orders(pagesize,pagenum,query) {
+    return request({
+        method:'get',
+        url: '/orders',
+        params:{
+            query,
+            pagenum,
+            pagesize,
+        }
+    })
+  }

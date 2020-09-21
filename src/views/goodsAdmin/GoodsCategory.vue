@@ -5,7 +5,14 @@
     </div>
     <AddCate ref="addcate" colName="分类名称" title="添加分类" @add="handleAdd" :cascader="cascader" />
     <AddCate ref="addcate1" colName="分类名称" title="编辑名称" @add="handleCompile" />
-    <Table :loading="isLoading" border row-key="cat_id" :columns="columns16" :data="data12">
+    <Table
+      :loading="isLoading"
+      :load-data="handleLoadData"
+      border
+      row-key="cat_id"
+      :columns="columns16"
+      :data="data12"
+    >
       <template slot-scope="{ row}" slot="isValid">
         <Icon type="ios-checkmark-circle" color="#41B883" size="22" v-if="!row.cat_deleted" />
         <Icon type="ios-close-circle" color="#ED4014" size="22" v-else />
@@ -55,6 +62,7 @@ export default {
   data() {
     return {
       data12: [],
+      allData: [],
       columns16: [
         {
           title: "#",
@@ -65,7 +73,6 @@ export default {
         {
           title: "分类名称",
           key: "cat_name",
-          // tooltip:true,
           tree: true,
         },
         {
@@ -87,13 +94,13 @@ export default {
       ],
 
       total: 0,
-      pagesize: 3,
+      pagesize: 6,
       page: 1,
       isLoading: false,
       isShow: false,
       cascader: [],
 
-      compileId:null
+      compileId: null,
     };
   },
   methods: {
@@ -122,28 +129,28 @@ export default {
     handleAdd(obj) {
       addCate(obj).then((res) => {
         console.log(res);
-        if(res.data.meta.status == 201){
-          this.$Message.success(res.data.meta.msg)
-          this.get()
-          this.getAll()
+        if (res.data.meta.status == 201) {
+          this.$Message.success(res.data.meta.msg);
+          this.get();
+          this.getAll();
         }
       });
     },
     // 编辑处理函数
-    handleCompile(obj){
+    handleCompile(obj) {
       console.log(obj);
-      compCate(this.compileId,obj.cat_name).then(res=>{
+      compCate(this.compileId, obj.cat_name).then((res) => {
         console.log(res);
-        if(res.data.meta.status == 200){
-          this.$Message.success(res.data.meta.msg)
-          this.get()
-          this.getAll()
+        if (res.data.meta.status == 200) {
+          this.$Message.success(res.data.meta.msg);
+          this.get();
+          this.getAll();
         }
-      })
+      });
     },
     show(a) {
       console.log(a);
-      this.compileId = a.cat_id
+      this.compileId = a.cat_id;
       this.$refs.addcate1.isShow = true;
     },
     // 修改和删除
@@ -157,12 +164,18 @@ export default {
             if (res.data.meta.status == 200) {
               this.$Message.success(res.data.meta.msg);
               this.get();
-              this.getAll()
+              this.getAll();
             }
           });
         },
       });
       console.log(row);
+    },
+    // 表格数据懒加载
+    handleLoadData(item, callback) {
+      console.log(item);
+      // let a = this.lazyLoad(item.cat_id, this.allData);
+      callback(this.lazyLoad(item.cat_id, this.allData));
     },
     format(val) {
       if (val === undefined) return [];
@@ -181,11 +194,60 @@ export default {
       });
       return arr;
     },
+    lazyLoad(id, data) {
+      if (!data) return [];
+      let arr = [];
+      for (let item of data) {
+        if (item.cat_id === id) {
+          // arr = item.children
+          arr = this.formatTree(item.children);
+          console.log(arr);
+          return arr;
+        } else {
+          // console.log(item.cat_name, item.cat_id);
+          arr = this.lazyLoad(id, item.children);
+          if(arr.length>0){
+            return arr
+          }
+        }
+      }
+      return arr;
+    },
+    formatTree(item) {
+      let arr = [];
+      item.forEach((item) => {
+        if (item.children) {
+          let obj = {
+            cat_deleted: item.cat_deleted,
+            cat_id: item.cat_id,
+            cat_level: item.cat_level,
+            cat_name: item.cat_name,
+            cat_pid: item.cat_pid,
+            _loading: false,
+            children: [],
+          };
+          arr.push(obj);
+        } else {
+          let obj = {
+            cat_deleted: item.cat_deleted,
+            cat_id: item.cat_id,
+            cat_level: item.cat_level,
+            cat_name: item.cat_name,
+            cat_pid: item.cat_pid,
+          };
+          arr.push(obj);
+        }
+      });
+      return arr;
+    },
     get() {
       this.isLoading = true;
       getCate(this.pagesize, this.page).then((res) => {
-        // console.log(res.data.data.result);
-        this.data12 = res.data.data.result;
+        console.log(res.data.data.result);
+        // this.data12 = res.data.data.result;
+        this.allData = res.data.data.result;
+        this.data12 = this.formatTree(res.data.data.result);
+        // this.data12 = res.data.data.result;
         this.total = res.data.data.total;
         this.isLoading = false;
       });
@@ -200,7 +262,7 @@ export default {
   },
   created() {
     this.get();
-    this.getAll()
+    this.getAll();
   },
 };
 </script>

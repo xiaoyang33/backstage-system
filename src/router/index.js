@@ -17,15 +17,16 @@ const routes = [
     name:'首页',
     component:()=>import('../views/Home.vue'),
     children:[
-      
-      // {
-      //   path:'users',
-      //   component:()=>import('../views/userAdmin/userAdmin.vue')
-      // },
       {
         path:'/',
-        redirect:'home'
+        redirect:'users'
+        // component:()=>import('../views/HomeChi.vue')
       },
+      // {
+      //   path:'users',
+      //   name:'用户列表',
+      //   component:()=>import('../views/userAdmin/userAdmin.vue')
+      // },
       {
         path:'home',
         name:'主页',
@@ -34,7 +35,7 @@ const routes = [
       {
         path:'users',
         name:'角色列表',
-        component:()=>import('../views/userAdmin/UserAdmin.vue')
+        component:()=>import('../views/userAdmin/UserAdmin')
       },
       {
         path:'roles',

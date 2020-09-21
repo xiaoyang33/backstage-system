@@ -107,7 +107,6 @@
               :key="it.id" 
               :to="path(it.path)" 
               :name="index+'-'+ind">
-              <!-- <Icon :type="list[ind+1]" /> -->
               {{it.authName}}
               </MenuItem>
           </Submenu>
@@ -123,9 +122,8 @@
             size="24"
           ></Icon>
           <Breadcrumb separator=">" class="bread">
-            <BreadcrumbItem to="/home">首页</BreadcrumbItem>
-            <BreadcrumbItem to="/home">未完成</BreadcrumbItem>
-            <BreadcrumbItem to="/home">未完成</BreadcrumbItem>
+            <BreadcrumbItem to="">首页</BreadcrumbItem>
+            <BreadcrumbItem to="">{{navName}}</BreadcrumbItem>
           </Breadcrumb>
         </Header>
         <Content :style="{margin: '20px','margin-bottom':0, background: '#fff', minHeight: '260px'}">
@@ -150,10 +148,18 @@ export default {
         'ios-cart',
         'md-repeat',
         'ios-stats'
-      ]
+      ],
+      navName:''
     };
   },
+  watch:{
+    $route(){
+      // console.log(this.$route);
+      this.navName=this.$route.name
+    }
+  },
   created(){
+     this.navName=this.$route.name
     getSider().then(res=>{
       // console.log(res);
       this.sider = res.data.data
